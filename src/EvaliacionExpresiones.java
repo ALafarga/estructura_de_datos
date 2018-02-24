@@ -17,7 +17,7 @@ public class EvaliacionExpresiones {
      *
      */
 
-    static double opera (int operando1, int operando2, String operacion) throws OperacionNoSoportadaException
+    static double opera (double operando1, double operando2, String operacion) throws OperacionNoSoportadaException
     {
         double operandoAux = operando1; //cast para que todas las operaciones sean realizadas con la ALU de punto flotante
         double result;
@@ -33,8 +33,6 @@ public class EvaliacionExpresiones {
         if (operacion.equals("-")) {
             return result = operandoAux - operando2;
         }
-
-
         throw new OperacionNoSoportadaException(operacion);
     }
 
@@ -78,7 +76,7 @@ public class EvaliacionExpresiones {
             {
                 double operand1 = Double.parseDouble(stack.pop());
                 double operand2 = Double.parseDouble(stack.pop());
-                stack.push(String.valueOf(opera(operand1, operand2, element)));
+                stack.push(String.valueOf(opera(operand2, operand1, element)));
             }
             else{
     //            stack.push("3");
@@ -145,15 +143,22 @@ public class EvaliacionExpresiones {
 
     public static void popHastaAbreLlave(StackLE<String> stack, QueueLE<String> queueOperands)
     {
-        while(abreLlave(queuePostFix.next()))
-            queuePostFix.enqueue(stack.pop());
+       do {
+           if(!abreLlave(stack.top()))
+                queueOperands.enqueue(stack.top());
+       }while(!abreLlave(stack.pop()));
     }
 
     public static void popHastaAbreLlaveOVacio()
     {
         while(!stack.isEmpty())
-            if(!abreLlave(stack.top()))
+        {
+            if (!abreLlave(stack.top()))
                 queuePostFix.enqueue(stack.pop());
+            else
+                break;
+        }
+
     }
 
     public static void inToPostFijo(String infix)
@@ -162,7 +167,7 @@ public class EvaliacionExpresiones {
             String caracter = Character.toString(infix.charAt(i));
             if (esOperando(caracter)) {
                 queuePostFix.enqueue(caracter);
-            } else if(esOperador(caracter)){
+            } else if(esOperador(caracter) || abreLlave(caracter) || cierraLlave(caracter)){
                 if(stack.isEmpty()){
                     stack.push(caracter);
                 } else if (abreLlave(caracter)) {

@@ -25,12 +25,10 @@ public class testInfix2PostFix {
         System.out.println("El string " + d + " cierra una llave: " + eval.cierraLlave(d));
         System.out.println();
 
-//        stack.push("+");
-//        stack.push("(");
-//        stack.push("/")
-        String expresionInfixToTransform = "1+2*3-4*5";
+        String expresionInfixToTransform = "((1+2)*3-4)*5";
         System.out.println("Expresion a evaluar: " + expresionInfixToTransform);
-        System.out.println("Resultado esperado: " +  (1+2*3-4*5));
+        System.out.println("Resultado esperado: " +  ((((double)1+(double)2)*(double)3-(double)4)*(double)5));
+
         //test infijo
         //quitar test cuando se evalua pues en la evaluacion ya se corre este metodo y este metodo saca todo del stack
 //        System.out.print("InToPostFijo test: ");
