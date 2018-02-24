@@ -52,34 +52,38 @@ public class EvaliacionExpresiones {
      */
     static void getString()
     {
-        String element = stack.pop();
-        if(element.equals("*"))
+        String element;
+        while(!queuePostFix.isEmpty())
         {
-            int operand1 = Integer.parseInt(stack.pop());
-            int operand2 = Integer.parseInt(stack.pop());
-            stack.push(String.valueOf(opera(operand1, operand2, element)));
-        }
-        else if(element.equals("/"))
-        {
-            int operand1 = Integer.parseInt(stack.pop());
-            int operand2 = Integer.parseInt(stack.pop());
-            stack.push(String.valueOf(opera(operand2, operand1, element)));
-        }
-        else if(element.equals("+"))
-        {
-            int operand1 = Integer.parseInt(stack.pop());
-            int operand2 = Integer.parseInt(stack.pop());
-            stack.push(String.valueOf(opera(operand1, operand2, element)));
-        }
-        else if(element.equals("-"))
-        {
-            int operand1 = Integer.parseInt(stack.pop());
-            int operand2 = Integer.parseInt(stack.pop());
-            stack.push(String.valueOf(opera(operand1, operand2, element)));
-        }
-        else{
-//            stack.push("3");
-            stack.push(element);
+            element = queuePostFix.dequeue();
+            if(element.equals("*"))
+            {
+                double operand1 = Double.parseDouble(stack.pop());
+                double operand2 = Double.parseDouble(stack.pop());
+                stack.push(String.valueOf(opera(operand1, operand2, element)));
+            }
+            else if(element.equals("/"))
+            {
+                double operand1 = Double.parseDouble(stack.pop());
+                double operand2 = Double.parseDouble(stack.pop());
+                stack.push(String.valueOf(opera(operand2, operand1, element)));
+            }
+            else if(element.equals("+"))
+            {
+                double operand1 = Double.parseDouble(stack.pop());
+                double operand2 = Double.parseDouble(stack.pop());
+                stack.push(String.valueOf(opera(operand1, operand2, element)));
+            }
+            else if(element.equals("-"))
+            {
+                double operand1 = Double.parseDouble(stack.pop());
+                double operand2 = Double.parseDouble(stack.pop());
+                stack.push(String.valueOf(opera(operand1, operand2, element)));
+            }
+            else{
+    //            stack.push("3");
+                stack.push(element);
+            }
         }
     }
 
@@ -184,10 +188,10 @@ public class EvaliacionExpresiones {
         //Imprimie la expresion PostFijo que se va a evaluar
         System.out.println("PostFijo: " + queuePostFix);
 //        stack = temp;
-        while(!queuePostFix.isEmpty())
-        {
-            stack.push(queuePostFix.dequeue());
-        }
+//        while(!queuePostFix.isEmpty())
+//        {
+//            stack.push(queuePostFix.dequeue());
+//        }
         getString();
     }
 
