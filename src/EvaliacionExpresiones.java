@@ -1,3 +1,6 @@
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 //No se tomo en cuenta los parentesis como simbolo para multiplicar
 public class EvaliacionExpresiones {
     //TODO prioridades
@@ -130,7 +133,8 @@ public class EvaliacionExpresiones {
 //            String
         int peso2 = getPrioridad(stack.top());
         if (peso1 == peso2){
-            return false;
+            queuePostFix.enqueue(stack.pop());
+            return true;
         }
         return peso1>peso2? true : false;
     }
@@ -147,10 +151,14 @@ public class EvaliacionExpresiones {
 
     public static void popHastaAbreLlave()
     {
-       do {
-           if(!abreLlave(stack.top()))
-                queuePostFix.enqueue(stack.top());
-       }while(!abreLlave(stack.pop()));
+
+            do {
+                if(stack.isEmpty()) {
+                    break;
+                }
+                if (!abreLlave(stack.top()))
+                    queuePostFix.enqueue(stack.top());
+            } while (!abreLlave(stack.pop()));
     }
 
     public static void popHastaAbreLlaveOVacio()
@@ -167,23 +175,30 @@ public class EvaliacionExpresiones {
 
     public static void inToPostFijo(String infix)
     {
-        for (int i = 0; i <= infix.length()-1; i++) {
-            String caracter = Character.toString(infix.charAt(i));
-            if (esOperando(caracter)) {
-                queuePostFix.enqueue(caracter);
-            } else if(esOperador(caracter) || abreLlave(caracter) || cierraLlave(caracter)){
-                if(stack.isEmpty()){
-                    stack.push(caracter);
-                } else if (abreLlave(caracter)) {
-                    stack.push(caracter);
-                } else if (cierraLlave(caracter)) {
-                    popHastaAbreLlave();
-                } else {
-                    if(tieneMayorPrioridad(caracter)){
-                        stack.push(caracter);
+        String [] infix2pos = infix.split("(?<=[-+*/])|(?=[-+*/])|(?=[({\\[)}\\]])|(?<=[({\\[)}\\]])|\\s");
+      //  System.out.println(Arrays.toString(infix2pos));
+        for (int i = 0; i < infix2pos.length; i++) {
+            String aux = infix2pos[i];
+            if(!aux.equals("") && !aux.equals(" ")) {
+                //Fallo el remover espacios antes de elementos con la expresion regular por lo que se uso esta alternativa
+                aux = aux.replace(" " , "");
+                if (esOperando(aux)) {
+                    queuePostFix.enqueue(aux);
+                } else if (esOperador(aux) || abreLlave(aux) || cierraLlave(aux)) {
+                    if (stack.isEmpty()) {
+                        stack.push(aux);
+                    } else if (abreLlave(aux)) {
+                        stack.push(aux);
+                    } else if (cierraLlave(aux)) {
+                        popHastaAbreLlave();
                     } else {
+                        if (tieneMayorPrioridad(aux)) {
+                            stack.push(aux);
+                        } else {
 //                        popHastaAbreLlaveOVacio();
-                        stack.push(caracter);
+                            popHastaAbreLlave();
+                            stack.push(aux);
+                        }
                     }
                 }
             }
@@ -216,6 +231,19 @@ public class EvaliacionExpresiones {
 //            //getString(Character.toString(expresion.charAt(i)));
 //        }
         inToPostFijo(expresion);
+        //Variable utilizada para revizar si solo hay un elemento en el stack
+        String temp = stack.pop();
+        if(!stack.isEmpty())
+        {
+            //si hay mas de un elemento significa que la expresion que se quiere transformar no esta soportada o esta equivocada
+            System.out.println("La logica de esta operacion no esta soportada o es incorrecta");
+            do
+            {
+                stack.pop();
+            }
+            while (!stack.isEmpty());
+        }
+        stack.push(temp);
         return Double.parseDouble(stack.pop());
 //        return 0;
     }
