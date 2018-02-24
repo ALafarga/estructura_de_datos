@@ -1,6 +1,8 @@
+//No se tomo en cuenta los parentesis como simbolo para multiplicar
 public class EvaliacionExpresiones {
     //TODO prioridades
     //TODO validaciones
+
 
     //Guarda los operandos
     public static StackLE<String> stack = new StackLE<>();
@@ -124,9 +126,11 @@ public class EvaliacionExpresiones {
     public static boolean tieneMayorPrioridad(String op1)
     {
         int peso1 = getPrioridad(op1);
+//        if(abreLlave(stack.top()))
+//            String
         int peso2 = getPrioridad(stack.top());
         if (peso1 == peso2){
-            return true;
+            return false;
         }
         return peso1>peso2? true : false;
     }
@@ -141,11 +145,11 @@ public class EvaliacionExpresiones {
         return (caracter.equals("{") || caracter.equals("[") || caracter.equals("("));
     }
 
-    public static void popHastaAbreLlave(StackLE<String> stack, QueueLE<String> queueOperands)
+    public static void popHastaAbreLlave()
     {
        do {
            if(!abreLlave(stack.top()))
-                queueOperands.enqueue(stack.top());
+                queuePostFix.enqueue(stack.top());
        }while(!abreLlave(stack.pop()));
     }
 
@@ -173,12 +177,12 @@ public class EvaliacionExpresiones {
                 } else if (abreLlave(caracter)) {
                     stack.push(caracter);
                 } else if (cierraLlave(caracter)) {
-                    popHastaAbreLlave(stack, queuePostFix);
+                    popHastaAbreLlave();
                 } else {
                     if(tieneMayorPrioridad(caracter)){
                         stack.push(caracter);
                     } else {
-                        popHastaAbreLlaveOVacio();
+//                        popHastaAbreLlaveOVacio();
                         stack.push(caracter);
                     }
                 }
