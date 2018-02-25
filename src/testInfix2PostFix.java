@@ -59,12 +59,37 @@ public class testInfix2PostFix {
         System.out.println("Evalua: " + eval.evalua(expresionInfixToTransform));
         System.out.println();
 
-        expresionInfixToTransform = "10 + 3 * 5 / (16 - 4)";    //10 3 5 * 16 4 - / +
+        expresionInfixToTransform = "10 + 3 * 5 / (16 - 4)";    //10.2 3.4 5 * 16 4 - / +
         System.out.println("Expresion a evaluar: " + expresionInfixToTransform);
-        System.out.println("Expresion en post fijo esperada: 10 3 5 * 16 4 - / +");
+        System.out.println("Expresion en post fijo esperada: 10.2 3.4 5 * 16 4 - / +");
         System.out.println("Resultado esperado: " +  ((double)10 + (double)3 * (double)5 / ((double)16 - (double)4)));
         System.out.println("Evalua: " + eval.evalua(expresionInfixToTransform));
         System.out.println();
 
+        expresionInfixToTransform = "10.2 + 3.4 * 5 / (16 - 4)";    //10.2 3.4 5 * 16 4 - / +
+        System.out.println("Expresion a evaluar: " + expresionInfixToTransform);
+        System.out.println("Expresion en post fijo esperada: 10.2 3.4 5 * 16 4 - / +");
+        System.out.println("Resultado esperado: " +  ((10.2 + 3.4 * (double)5 / ((double)16 - (double)4))));
+        System.out.println("Evalua: " + eval.evalua(expresionInfixToTransform));
+        System.out.println();
+
+        expresionInfixToTransform = "(300+23)*(43-21)/(84+7)";    //300 23 + 43 21 - * 84 7 + /
+        System.out.println("Expresion a evaluar: " + expresionInfixToTransform);
+        System.out.println("Expresion en post fijo esperada: 300 23 + 43 21 - * 84 7 + /");
+        System.out.println("Resultado esperado: " +  (((double)300+(double)23)*((double)43-(double)21)/((double)84+(double)7)));
+        System.out.println("Evalua: " + eval.evalua(expresionInfixToTransform));
+        System.out.println();
+
+        expresionInfixToTransform = "(4+8)*(6-5)/((3-2)*(2+2))";    // 4 8 + 6 5 - * 3 2 – 2 2 + * /
+        System.out.println("Expresion a evaluar: " + expresionInfixToTransform);
+        System.out.println("Expresion en post fijo esperada:  4 8 + 6 5 - * 3 2 – 2 2 + * /");
+        System.out.println("Resultado esperado: " +  (((double)4+(double)8)*((double)6-(double)5)/(((double)3-(double)2)*((double)2+(double)2))));
+        System.out.println("Evalua: " + eval.evalua(expresionInfixToTransform));
+        System.out.println();
+    }
+
+    public static void main(String[] args)
+    {
+        test();
     }
 }
