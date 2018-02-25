@@ -1,6 +1,6 @@
 import java.lang.reflect.Array;
 import java.util.Arrays;
-//todo exponentes, modulos y signos @ y ?
+
 /**
  * Esta clase consite esclusivamente de metodos estaticos que operan con Strings y una cola que guarda la expresion una
  * vez que ha sido convertida a su expresion postfijo y una pila que se utilizara para operar la expresion postfijo asi
@@ -46,19 +46,22 @@ public class EvaliacionExpresiones {
     {
         double operandoAux = operando1; //cast para que todas las operaciones sean realizadas con la ALU de punto flotante
         double result;
-        if (operacion.equals("*")) {
+        if (operacion.equals("^")) {
+            return result = Math.pow(operandoAux, operando2);
+        }
+        else if (operacion.equals("*")) {
             return result = operandoAux * operando2;
         }else if (operacion.equals("/")) {
             return result = operandoAux / operando2;
+        }
+        else if (operacion.equals("%")) {
+            return result = (operandoAux % operando2);
         }
         else if (operacion.equals("+")) {
             return result = operandoAux + operando2;
         }
         else if (operacion.equals("-")) {
             return result = operandoAux - operando2;
-        }
-        else if (operacion.equals("^")) {
-            return result = Math.pow(operandoAux, operando2);
         }
         throw new OperacionNoSoportadaException(operacion);
     }
@@ -82,13 +85,25 @@ public class EvaliacionExpresiones {
         while(!queuePostFix.isEmpty())
         {
             element = queuePostFix.dequeue();
-            if(element.equals("*"))
+            if(element.equals("^"))
+            {
+                double operand1 = Double.parseDouble(stack.pop());
+                double operand2 = Double.parseDouble(stack.pop());
+                stack.push(String.valueOf(opera(operand2, operand1, element)));
+            }
+            else if(element.equals("*"))
             {
                 double operand1 = Double.parseDouble(stack.pop());
                 double operand2 = Double.parseDouble(stack.pop());
                 stack.push(String.valueOf(opera(operand1, operand2, element)));
             }
             else if(element.equals("/"))
+            {
+                double operand1 = Double.parseDouble(stack.pop());
+                double operand2 = Double.parseDouble(stack.pop());
+                stack.push(String.valueOf(opera(operand2, operand1, element)));
+            }
+            else if(element.equals("%"))
             {
                 double operand1 = Double.parseDouble(stack.pop());
                 double operand2 = Double.parseDouble(stack.pop());
@@ -101,12 +116,6 @@ public class EvaliacionExpresiones {
                 stack.push(String.valueOf(opera(operand1, operand2, element)));
             }
             else if(element.equals("-"))
-            {
-                double operand1 = Double.parseDouble(stack.pop());
-                double operand2 = Double.parseDouble(stack.pop());
-                stack.push(String.valueOf(opera(operand2, operand1, element)));
-            }
-            else if(element.equals("^"))
             {
                 double operand1 = Double.parseDouble(stack.pop());
                 double operand2 = Double.parseDouble(stack.pop());
@@ -127,7 +136,7 @@ public class EvaliacionExpresiones {
      */
     public static boolean esOperador(String caracter) {
         char c = caracter.charAt(0);
-        return (c == '%' || c == '*' || c == '/' || c == '+' || c == '-' );
+        return (c == '%' || c == '*' || c == '/' || c == '+' || c == '-' || c == '^' || c == '%');
     }
 
     /**
@@ -156,6 +165,9 @@ public class EvaliacionExpresiones {
             case '/':
             case '%':
                 prioridad = 2;
+                break;
+            case '^':
+                prioridad =3;
         }
         return prioridad;
     }
@@ -226,7 +238,7 @@ public class EvaliacionExpresiones {
      */
     public static void inToPostFijo(String infix)
     {
-        String [] infix2pos = infix.split("(?<=[-+*/])|(?=[-+*/])|(?=[({\\[)}\\]])|(?<=[({\\[)}\\]])|\\s");
+        String [] infix2pos = infix.split("(?<=[-+*/^%])|(?=[-+*/^%])|(?=[({\\[)}\\]])|(?<=[({\\[)}\\]])|\\s");
       //  System.out.println(Arrays.toString(infix2pos));
         for (int i = 0; i < infix2pos.length; i++) {
             String aux = infix2pos[i];
