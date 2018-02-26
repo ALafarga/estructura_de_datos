@@ -1,13 +1,27 @@
 package HanoiTower;
+import java.awt.*;
 
 public class Disco {
 
     int tamano;
-    String color;
+//    String color;
+    Color color;
+    int altura;
+    int coorX;
 
-    public Disco(int tamano, String color) {
+    public Disco() {
+    }
+
+//    public Disco(int tamano, String color) {
+//        this.tamano = tamano;
+//        this.color = color;
+//    }
+
+    public Disco(int tamano, Color color, int altura, int coorX) {
         this.tamano = tamano;
         this.color = color;
+        this.altura = altura;
+        this.coorX = coorX;
     }
 
     @Override

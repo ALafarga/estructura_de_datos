@@ -3,24 +3,37 @@ package HanoiTower;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PanelControl extends JPanel{
 
     private HanoiTowers hanoiTowers;
     private JSlider slider;
+    private JButton startBtn;
 
     public PanelControl(HanoiTowers hanoiTowers)
     {
         super();
         this.hanoiTowers = hanoiTowers;
-        this.slider = new JSlider(JSlider.VERTICAL,1,10, 5);
+        this.slider = new JSlider(JSlider.VERTICAL,1,10, 2);
         this.slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                hanoiTowers.setNivel(slider.getValue());
+                hanoiTowers.setN(slider.getValue());
+            }
+        });
+        this.startBtn = new JButton("Start");
+        this.startBtn.setHorizontalAlignment(AbstractButton.CENTER);
+        this.startBtn.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+               hanoiTowers.startHanoi();
             }
         });
         this.add(slider);
+        this.add(startBtn);
 
     }
 }
