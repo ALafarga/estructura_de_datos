@@ -14,7 +14,7 @@ public class HanoiTowers extends JPanel implements Runnable
     /**
      * Global variables
      */
-    private int n = 6;
+    private int n = 2;
     private int DISTANCIA_AL_BORDE = 50;
     private StackLE <Disco> A = new StackLE <Disco>();   //Torre inicial
     private int xA = 100;
@@ -75,7 +75,7 @@ public class HanoiTowers extends JPanel implements Runnable
 
         //Error al pintar las torres dinamicamente
 
-//        pintaTorres(g);
+        pintaTorres(g);
 //        timer.start();
 //        hanoiTowers(g, this.n, A, C, B);
 //        hanoiTowers(g, this.n, A, xA, C, xC, B, xB);
@@ -148,6 +148,13 @@ public class HanoiTowers extends JPanel implements Runnable
 
     }
 
+    private void pintaDisco(Disco tempDisco, Graphics g) {
+        g.setColor(tempDisco.color);
+        g.fillRoundRect(tempDisco.coorX - (tempDisco.tamano/2), tempDisco.altura,
+                tempDisco.tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
+        repaint();
+    }
+
     private void pintaTorres (Graphics g)
     {
 
@@ -187,24 +194,27 @@ public class HanoiTowers extends JPanel implements Runnable
         while(!tempA.isEmpty())
         {
             tempDisco = tempA.pop();
-            g.fillRoundRect(tempA.top().coorX - (tempA.top().tamano/2), tempA.top().altura,
-                    tempA.top().tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
-            ALTURA_A-= TAMANO_DISCOS;
+            pintaDisco(tempDisco, g);
+//            g.fillRoundRect(tempA.top().coorX - (tempA.top().tamano/2), tempA.top().altura,
+//                    tempA.top().tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
+//            ALTURA_A-= TAMANO_DISCOS;
         }
-//        while(!tempB.isEmpty())
-//        {
-////            tempB.top() = auxB.pop();
+        while(!tempB.isEmpty())
+        {
+            tempDisco = tempB.pop();
+            pintaDisco(tempDisco, g);
 //            g.fillRoundRect(tempB.top().coorX - (tempB.top().tamano/2), tempB.top().altura,
 //                    tempB.top().tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
-////            ALTURA_A-= TAMANO_DISCOS;
-//        }
-//        while(!tempC.isEmpty())
-//        {
-////            tempDisco = auxC.pop();
+//            ALTURA_A-= TAMANO_DISCOS;
+        }
+        while(!tempC.isEmpty())
+        {
+            tempDisco = tempC.pop();
+            pintaDisco(tempDisco, g);
 //            g.fillRoundRect(tempC.top().coorX - (tempC.top().tamano/2), tempC.top().altura,
 //                    tempC.top().tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
-////            ALTURA_A-= TAMANO_DISCOS;
-//        }
+//            ALTURA_A-= TAMANO_DISCOS;
+        }
 
     }
 
@@ -259,12 +269,16 @@ public class HanoiTowers extends JPanel implements Runnable
         if( n == 1)
         {
             hasta.push(desde.pop());
-            hasta.top().altura -= TAMANO_DISCOS;
-            hasta.top().coorX = hastaX;
-            g.setColor(hasta.top().color);
-//            g.fillRect(xA - (hasta.top().tamano/2), ALTURA_A, hasta.top().tamano, TAMANO_DISCOS);
-//            ALTURA_A -= TAMANO_DISCOS;
-            g.fillRect(hasta.top().coorX - (hasta.top().tamano/2), hasta.top().altura, hasta.top().tamano, TAMANO_DISCOS);
+            Disco temp = new Disco();
+            temp = hasta.top();
+            temp.altura =  this.getHeight() - hasta.size() * TAMANO_DISCOS - DISTANCIA_AL_BORDE;
+            temp.coorX = hastaX;
+            pintaDisco(temp, g);
+//            g.setColor(temp.color);
+////            g.fillRect(xA - (hasta.top().tamano/2), ALTURA_A, hasta.top().tamano, TAMANO_DISCOS);
+////            ALTURA_A -= TAMANO_DISCOS;
+//            g.fillRect(temp.coorX - (temp.tamano/2), temp.altura, temp.tamano,
+//                    TAMANO_DISCOS);
             repaint();
 
             try

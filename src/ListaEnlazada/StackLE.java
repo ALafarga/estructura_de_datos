@@ -75,13 +75,14 @@ public class StackLE <E> {
         StackLE<E> aux = new StackLE<E>();
         StackLE<E> temp = new StackLE<E>();
 
-        temp = this;
-        while (!temp.isEmpty())
+        while (!this.isEmpty())
         {
-            aux.push(temp.pop());
+            temp.push(this.top());
+            aux.push(this.pop());
         }
         while(!aux.isEmpty())
         {
+            this.push(aux.top());
             copyTo.push(aux.pop());
         }
         return copyTo;
