@@ -70,7 +70,7 @@ public class HanoiTowers extends JPanel implements Runnable
         g.drawLine(xB, DISTANCIA_AL_BORDE, xB, this.getHeight() - DISTANCIA_AL_BORDE);   //Draw B stack
         g.drawLine(xC, DISTANCIA_AL_BORDE, xC, this.getHeight() - DISTANCIA_AL_BORDE);   //Draw C stack
 //        iniciaDiscos(this.n, this.disco);
-        iniciaTorres(g, this.n, this.disco);
+//        iniciaTorres(g, this.n, this.disco);
         /////////////////////////////////       ERROR               //////////////////////////////////////////
 
         //Error al pintar las torres dinamicamente
@@ -120,6 +120,18 @@ public class HanoiTowers extends JPanel implements Runnable
             torresIniciadas = true;
         }
     }
+    private void iniciaTorres(int n, Disco [] disco) {
+            A.push(disco[n - 1]);
+            disco[n - 1].altura = ALTURA_A;
+//            g.setColor(disco[n - 1].color);
+////        g.fillRect(xA - (disco[n - 1].tamano/2), ALTURA_A, disco[n - 1].tamano, TAMANO_DISCOS);
+//            g.fillRoundRect(disco[n - 1].coorX - (disco[n - 1].tamano / 2),
+//                    disco[n - 1].altura, disco[n - 1].tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
+//            ALTURA_A -= TAMANO_DISCOS;
+            if (n != 1) {
+                iniciaTorres(n - 1, disco);
+            }
+    }
 
     //    {
     //        hanoiTowers(g, this.n, A, xA, C, xC, B, xB);
@@ -148,7 +160,7 @@ public class HanoiTowers extends JPanel implements Runnable
         }
         catch (Exception e)
         {
-            System.out.println("Runnable exception");
+            System.out.println("Runnable exception "+e);
         }
 
     }
@@ -248,6 +260,7 @@ public class HanoiTowers extends JPanel implements Runnable
     {
         initFrame();
         iniciaDiscos(this.n, this.disco);
+        iniciaTorres(this.n, this.disco);
         //paintComponent(g);
         //paintAll(this.g);
 //        xA = this.getWidth() / 4;
@@ -274,7 +287,9 @@ public class HanoiTowers extends JPanel implements Runnable
 
         if( n == 1)
         {
+            System.out.println("Voy a hacer pop");
             hasta.push(desde.pop());
+            System.out.println("hecho pop");
             Disco temp = new Disco();
             temp = hasta.top();
             temp.altura =  this.getHeight() - hasta.size() * TAMANO_DISCOS - DISTANCIA_AL_BORDE;
