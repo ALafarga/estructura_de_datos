@@ -11,6 +11,7 @@ public class PanelControl extends JPanel{
     private HanoiTowers hanoiTowers;
     private JSlider slider;
     private JButton startBtn;
+    private JButton resetBtn;
 
     public PanelControl(HanoiTowers hanoiTowers)
     {
@@ -32,8 +33,20 @@ public class PanelControl extends JPanel{
                hanoiTowers.start();
             }
         });
+
+        this.resetBtn = new JButton("Reset");
+        this.resetBtn.setHorizontalAlignment(AbstractButton.CENTER);
+        this.resetBtn.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                hanoiTowers.restart();
+            }
+        });
+
         this.add(slider);
         this.add(startBtn);
+        this.add(resetBtn);
 
     }
 }

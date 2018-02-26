@@ -14,7 +14,8 @@ public class HanoiTowers extends JPanel implements Runnable
     /**
      * Global variables
      */
-    private int n = 2;
+    private int n = 7;
+    private int SPEED = 100;
     private int DISTANCIA_AL_BORDE = 50;
     private StackLE <Disco> A = new StackLE <Disco>();   //Torre inicial
     private int xA = 100;
@@ -32,7 +33,6 @@ public class HanoiTowers extends JPanel implements Runnable
 //    private String [] colores = {"azul", "rojo", "amarillo", "verde", "rosa", "morado", "cafe", "negro", "nariz","gris"};
     private Color [] colores = {Color.blue, Color.red, Color.yellow, Color.green, Color.pink, Color.magenta, Color.orange, Color.black, Color.cyan, Color.white};
     private Disco disco[] = new Disco[n];  //discos a mover
-    private int SPEED = 2000;
 
     private boolean discosIniciados = false;
     private boolean torresIniciadas = false;
@@ -69,7 +69,7 @@ public class HanoiTowers extends JPanel implements Runnable
         g.drawLine(xA, DISTANCIA_AL_BORDE, xA, this.getHeight() - DISTANCIA_AL_BORDE);   //Draw A stack
         g.drawLine(xB, DISTANCIA_AL_BORDE, xB, this.getHeight() - DISTANCIA_AL_BORDE);   //Draw B stack
         g.drawLine(xC, DISTANCIA_AL_BORDE, xC, this.getHeight() - DISTANCIA_AL_BORDE);   //Draw C stack
-        iniciaDiscos(this.n, this.disco);
+//        iniciaDiscos(this.n, this.disco);
         iniciaTorres(g, this.n, this.disco);
         /////////////////////////////////       ERROR               //////////////////////////////////////////
 
@@ -113,7 +113,7 @@ public class HanoiTowers extends JPanel implements Runnable
 //        g.fillRect(xA - (disco[n - 1].tamano/2), ALTURA_A, disco[n - 1].tamano, TAMANO_DISCOS);
             g.fillRoundRect(disco[n - 1].coorX - (disco[n - 1].tamano / 2),
                     disco[n - 1].altura, disco[n - 1].tamano, TAMANO_DISCOS, ANGULO_RECTANGULO, ANGULO_RECTANGULO);
-            ALTURA_A -= TAMANO_DISCOS;
+//            ALTURA_A -= TAMANO_DISCOS;
             if (n != 1) {
                 iniciaTorres(g, n - 1, disco);
             }
@@ -128,11 +128,16 @@ public class HanoiTowers extends JPanel implements Runnable
 
 //    public void actionPerformed(ActionEvent e)
 
-//    }
 
+//    }
     public void start()
     {
+
         this.runner.start();
+    }
+
+    public void restart() {
+
     }
 
     public void run()
@@ -217,7 +222,6 @@ public class HanoiTowers extends JPanel implements Runnable
         }
 
     }
-
     private  void imprimeTorres()
     {
         System.out.println("Torre A:");
@@ -236,12 +240,14 @@ public class HanoiTowers extends JPanel implements Runnable
             System.out.println(C.pop());
         }
     }
+
     /**
      *
      */
     void hanoiTowers()
     {
         initFrame();
+        iniciaDiscos(this.n, this.disco);
         //paintComponent(g);
         //paintAll(this.g);
 //        xA = this.getWidth() / 4;
@@ -255,12 +261,12 @@ public class HanoiTowers extends JPanel implements Runnable
 //        hanoiTowers(this.n, A, C, B);
 //        imprimeTorres();
     }
-
+    //
+    ////        hanoiTowers(g, this.n, A, xA, C, xC, B, xB);
+    //        timer.start();
+    //    {
 //    public void startHanoi()
-//    {
-//        timer.start();
-////        hanoiTowers(g, this.n, A, xA, C, xC, B, xB);
-//
+
 //    }
 
     void hanoiTowers(int n, StackLE <Disco> desde, int desdeX, StackLE <Disco> hasta, int hastaX, StackLE <Disco> aux, int auxX, Graphics g)
@@ -279,7 +285,7 @@ public class HanoiTowers extends JPanel implements Runnable
 ////            ALTURA_A -= TAMANO_DISCOS;
 //            g.fillRect(temp.coorX - (temp.tamano/2), temp.altura, temp.tamano,
 //                    TAMANO_DISCOS);
-            repaint();
+//            repaint();
 
             try
             {
