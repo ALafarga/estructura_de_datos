@@ -1,3 +1,5 @@
+import ListaEnlazada.StackLE;
+
 public class EjemploPilas {
 
     public static void borrarValor(StackLE<Integer> pila, int valor) {

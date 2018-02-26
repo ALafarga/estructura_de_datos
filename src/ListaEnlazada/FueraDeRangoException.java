@@ -1,3 +1,5 @@
+package ListaEnlazada;
+
 public class FueraDeRangoException extends RuntimeException {
 	public FueraDeRangoException()
 	{

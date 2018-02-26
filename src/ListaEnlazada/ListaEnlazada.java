@@ -1,3 +1,5 @@
+package ListaEnlazada;
+
 import java.util.NoSuchElementException;
 //uinicio y fin tiran no such element exception
 public class ListaEnlazada<T>	//cambiar E de la lista por T
@@ -176,7 +178,7 @@ public class ListaEnlazada<T>	//cambiar E de la lista por T
 			}
 		}catch (NullPointerException e){
 			throw new NoSuchElementException("No se puede borrar el fin de una lista vacia");
-			//throw new ListaVaciaException("");
+			//throw new ListaEnlazada.ListaVaciaException("");
 		}
 	}
 

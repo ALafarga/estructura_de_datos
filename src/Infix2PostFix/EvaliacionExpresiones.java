@@ -1,5 +1,7 @@
-import java.lang.reflect.Array;
-import java.util.Arrays;
+package Infix2PostFix;
+
+import ListaEnlazada.QueueLE;
+import ListaEnlazada.StackLE;
 
 /**
  * Esta clase consite esclusivamente de metodos estaticos que operan con Strings y una cola que guarda la expresion una
@@ -24,10 +26,10 @@ import java.util.Arrays;
 public class EvaliacionExpresiones {
 
     //Guarda los operandos
-    public static StackLE<String> stack = new StackLE<>();
+    public static StackLE<String> stack = new StackLE<String>();
 
     //Guarda la operacion en post fijo
-    public static QueueLE<String> queuePostFix = new QueueLE<>();
+    public static QueueLE<String> queuePostFix = new QueueLE<String>();
 
     /**
      * Este metodo soporta las siguentes operaciones:

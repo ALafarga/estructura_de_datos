@@ -1,3 +1,5 @@
+package ListaEnlazada;
+
 public class ListaVaciaException extends RuntimeException {
 	/**
 	 * 
