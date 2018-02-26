@@ -29,7 +29,7 @@ public class PanelControl extends JPanel{
         {
             public void actionPerformed(ActionEvent e)
             {
-               hanoiTowers.startHanoi();
+               hanoiTowers.start();
             }
         });
         this.add(slider);

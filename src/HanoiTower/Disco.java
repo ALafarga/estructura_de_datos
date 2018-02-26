@@ -26,6 +26,6 @@ public class Disco {
 
     @Override
     public String toString() {
-        return "tamano: " + tamano + "\n color: " + color;
+        return "tamano: " + tamano  + "\n altura: " + altura + "\n coordenada X: " + coorX + "\n color: " + color.toString() + "\n";
     }
 }
