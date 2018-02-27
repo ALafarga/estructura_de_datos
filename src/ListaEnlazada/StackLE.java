@@ -68,6 +68,28 @@ public class StackLE <E> {
         System.gc();    //llamada al garbage collector.
     }
 
+    //todo ask profesor porque se borra la que esoty llamando
+    public StackLE <E> duplicate ()
+    {
+        StackLE<E> copyTo = new StackLE<E>();
+        StackLE<E> aux = new StackLE<E>();
+        StackLE<E> temp = new StackLE<E>();
+
+        while (!this.isEmpty())
+        {
+            temp.push(this.top());
+            aux.push(this.pop());
+        }
+        while(!aux.isEmpty())
+        {
+            this.push(aux.top());
+            copyTo.push(aux.pop());
+        }
+        return copyTo;
+    }
+
+
+
     public String toString(){
         return lista.toString();
     }

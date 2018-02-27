@@ -3,24 +3,62 @@ package HanoiTower;
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class PanelControl extends JPanel{
 
     private HanoiTowers hanoiTowers;
     private JSlider slider;
+    private JSlider speedSlider;
+    private JButton startBtn;
+    private JButton resetBtn;
 
     public PanelControl(HanoiTowers hanoiTowers)
     {
         super();
         this.hanoiTowers = hanoiTowers;
-        this.slider = new JSlider(JSlider.VERTICAL,1,10, 5);
+        this.slider = new JSlider(JSlider.VERTICAL,1,10,
+                hanoiTowers.getN());
         this.slider.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                hanoiTowers.setNivel(slider.getValue());
+                hanoiTowers.setSpeed(slider.getValue());
             }
         });
+
+        this.speedSlider = new JSlider(JSlider.VERTICAL,1,100,
+                hanoiTowers.getSpeed());
+        this.speedSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                hanoiTowers.setN(slider.getValue());
+            }
+        });
+
+        this.startBtn = new JButton("Start");
+        this.startBtn.setHorizontalAlignment(AbstractButton.CENTER);
+        this.startBtn.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+               hanoiTowers.start();
+            }
+        });
+
+        this.resetBtn = new JButton("Reset");
+        this.resetBtn.setHorizontalAlignment(AbstractButton.CENTER);
+        this.resetBtn.addActionListener(new ActionListener()
+        {
+            public void actionPerformed(ActionEvent e)
+            {
+                hanoiTowers.restart();
+            }
+        });
+
         this.add(slider);
+        this.add(startBtn);
+        this.add(resetBtn);
 
     }
 }
