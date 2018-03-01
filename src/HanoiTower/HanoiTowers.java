@@ -15,6 +15,8 @@ public class HanoiTowers extends JPanel implements Runnable
     //Variables para ventana
     private int SPEED = 500;
     private int DISTANCIA_AL_BORDE = 50;
+    private int GLOBAL_PANEL_WIDTH = 700;
+    private int GLOBAL_PANEL_HEIGHT = 220;
     //Variables para Stacks
     private int n = 7;
     private StackLE <Disco> A = new StackLE <Disco>();   //Torre inicial
@@ -45,7 +47,7 @@ public class HanoiTowers extends JPanel implements Runnable
 
     public HanoiTowers(){
         super();
-        this.setPreferredSize(new Dimension (700, 220));
+        this.setPreferredSize(new Dimension (GLOBAL_PANEL_WIDTH, GLOBAL_PANEL_HEIGHT));
         runner = new Thread(this);
         initFrame();
         iniciaDiscos(this.n, this.disco);
@@ -58,17 +60,22 @@ public class HanoiTowers extends JPanel implements Runnable
     }
 
     public void setN(int n) {
+//        runner.interrupt();
         this.n = n;
-        repaint();
-    }
-
-    public void setSpeed(int SPEED) {
-        this.SPEED = SPEED * 10;
+        System.out.println("n: " + n);
+        restart();
         repaint();
     }
 
     public int getSpeed() {
-        return SPEED / 10;
+        return SPEED / 100;
+    }
+
+    public void setSpeed(int SPEED) {
+        this.SPEED = (11 - SPEED) * 100;
+//        this.runner.stop();
+        System.out.println("Speed: " + SPEED);
+        repaint();
     }
 
     public void paintComponent(Graphics g) {
@@ -99,6 +106,8 @@ public class HanoiTowers extends JPanel implements Runnable
     public void initFrame()
     {
         JFrame ventana = new JFrame("Torres de Hanoi");
+//        JPanel control = new JPanel();
+//        JPanel drawPanel = new JPanel();
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        HanoiTowers obj = new HanoiTowers();
         ventana.add(this);
@@ -113,7 +122,7 @@ public class HanoiTowers extends JPanel implements Runnable
             for (int i = 0; i < n; i++) {
                 disco[i] = new Disco(tamano,
                                     colores[i],
-                                    220 - DISTANCIA_AL_BORDE - ALTURA_DISCO,
+                                    GLOBAL_PANEL_HEIGHT - DISTANCIA_AL_BORDE - ALTURA_DISCO,
                                     xA);
                 tamano += DIFERENCIA_DE_TAMANOS;
 
@@ -153,12 +162,17 @@ public class HanoiTowers extends JPanel implements Runnable
     }
 
     public void restart() {
+    //        runner.interrupt();
+    //        try{
+    //            runner.join();
+    //        }catch (Exception e){
+    //            System.out.println(e);}
         this.A.flush();
         this.B.flush();;
         this.C.flush();;
-
         iniciaDiscos(this.n, this.disco);
         iniciaTorres(this.n, this.disco);
+        repaint();
     }
 
     public void run()
@@ -170,6 +184,7 @@ public class HanoiTowers extends JPanel implements Runnable
         catch (Exception e)
         {
             System.out.println("Runnable exception: " + e);
+            return;
         }
 
     }
@@ -317,11 +332,13 @@ public class HanoiTowers extends JPanel implements Runnable
 
             try
             {
-                Thread.sleep(SPEED);
+                Thread.sleep(this.SPEED);
             }
             catch (Exception e)
             {
+                System.out.println("Sleep excpection");
                 e.printStackTrace();
+                return;
             }
         }
         else
