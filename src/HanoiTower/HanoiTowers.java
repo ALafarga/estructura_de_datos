@@ -12,6 +12,7 @@ public class HanoiTowers extends JPanel implements Runnable
     /**
      * Global variables
      */
+    private CounterInterface counterInterface;
     //Variables para ventana
     private int SPEED = 500;
     private int DISTANCIA_AL_BORDE = 50;
@@ -37,6 +38,7 @@ public class HanoiTowers extends JPanel implements Runnable
     private Color [] colores = {Color.blue, Color.red, Color.yellow, Color.green, Color.pink, Color.magenta, Color.orange, Color.black, Color.cyan, Color.white};
     private Disco disco[] = new Disco[n];  //discos a mover
 
+    private int counter = 0;
 //    private boolean discosIniciados = false;
 
 //    private boolean torresIniciadas = false;
@@ -78,6 +80,10 @@ public class HanoiTowers extends JPanel implements Runnable
         repaint();
     }
 
+    public int getCounter() {
+        return counter;
+    }
+
     public void paintComponent(Graphics g) {
         /*Paint pinta sobre frames y paint component pinta en sobre paneles*/
         super.paintComponent(g);
@@ -96,26 +102,27 @@ public class HanoiTowers extends JPanel implements Runnable
         g.drawLine(xC, DISTANCIA_AL_BORDE, xC, this.getHeight() - DISTANCIA_AL_BORDE);   //Draw C stack
 //        iniciaDiscos(this.n, this.disco);
 //        iniciaTorres(g, this.n, this.disco);
+
         pintaTorres(g);
 //        timer.start();
 //        hanoiTowers(g, this.n, A, C, B);
 //        hanoiTowers(g, this.n, A, xA, C, xC, B, xB);
 //        imprimeTorres();
     }
-
     public void initFrame()
     {
         JFrame ventana = new JFrame("Torres de Hanoi");
 //        JPanel control = new JPanel();
 //        JPanel drawPanel = new JPanel();
+        JLabel counter = new JLabel("Movimientos: " + this.counter);
         ventana.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 //        HanoiTowers obj = new HanoiTowers();
         ventana.add(this);
         ventana.add(new PanelControl(this), BorderLayout.WEST);
+        counter.setLocation(300, 50);
         ventana.pack();
         ventana.setVisible(true);
     }
-
     private void iniciaDiscos(int n, Disco[] disco) {
 //        if(!discosIniciados) {
             int tamano = TAMANO_INICIAL_DISCOS;
@@ -130,7 +137,6 @@ public class HanoiTowers extends JPanel implements Runnable
 //            discosIniciados = true;
 //        }
     }
-    //            torresIniciadas = true;
     //        }
     //            }
     //                iniciaTorres(g, n - 1, disco);
@@ -143,6 +149,9 @@ public class HanoiTowers extends JPanel implements Runnable
     //            disco[n - 1].altura = ALTURA_PINTA_A;
     //            A.push(disco[n - 1]);
     //        if(!torresIniciadas) {
+
+    //            torresIniciadas = true;
+
 //    private void iniciaTorres(Graphics g, int n, Disco [] disco) {
 
 //    }
@@ -172,6 +181,7 @@ public class HanoiTowers extends JPanel implements Runnable
         this.C.flush();;
         iniciaDiscos(this.n, this.disco);
         iniciaTorres(this.n, this.disco);
+        counter = 0;
         repaint();
     }
 
@@ -188,8 +198,8 @@ public class HanoiTowers extends JPanel implements Runnable
         }
 
     }
-
     private void pintaDisco(Disco tempDisco, Graphics g) {
+
         g.setColor(tempDisco.color);
         g.fillRoundRect(tempDisco.coorX - (tempDisco.largo /2),
                             tempDisco.altura,
@@ -199,7 +209,6 @@ public class HanoiTowers extends JPanel implements Runnable
                             ANGULO_RECTANGULO);
         repaint();
     }
-
     private void pintaTorres (Graphics g)
     {
 
@@ -263,6 +272,7 @@ public class HanoiTowers extends JPanel implements Runnable
 
     }
     //        }
+
     //            System.out.println(C.pop());
     //        {
     //        while(!C.isEmpty())
@@ -285,6 +295,7 @@ public class HanoiTowers extends JPanel implements Runnable
         System.out.println("C:\n" + C);
 
     }
+
     /**
      *
      */
@@ -310,12 +321,22 @@ public class HanoiTowers extends JPanel implements Runnable
     ////        hanoiTowers(g, this.n, A, xA, C, xC, B, xB);
     //}
 
+    public void setCounterInterface(CounterInterface counterInterface){
+        this.counterInterface = counterInterface;
+    }
+
+    void incCounter(){
+        this.counter++;
+        counterInterface.increment(this.counter);
+    }
+
 
     void hanoiTowers(int n, StackLE <Disco> desde, int desdeX, StackLE <Disco> hasta, int hastaX, StackLE <Disco> aux, int auxX, Graphics g)
     {
 
         if( n == 1)
         {
+            incCounter();
             hasta.push(desde.pop());
             Disco temp;
             temp = hasta.top();

@@ -16,12 +16,19 @@ public class PanelControl extends JPanel{
     private JButton resetBtn;
     private JLabel levelLb;
     private JLabel speedLb;
-
+    private JLabel counter;
+    private JLabel movLb;
 
     public PanelControl(HanoiTowers hanoiTowers)
     {
         super();
         this.hanoiTowers = hanoiTowers;
+        this.hanoiTowers.setCounterInterface(new CounterInterface() {
+            @Override
+            public void increment(int counter) {
+                setCounterLabelText(String.valueOf(counter));
+            }
+        });
         this.slider = new JSlider(JSlider.VERTICAL,1,10,
                 hanoiTowers.getN());
         this.slider.addChangeListener(new ChangeListener() {
@@ -65,12 +72,19 @@ public class PanelControl extends JPanel{
             }
         });
 
+        this.movLb = new JLabel("Movimientos:");
+        this.counter = new JLabel(String.valueOf(hanoiTowers.getCounter()));
+
+
+
         JPanel sliderPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
         sliderPanel.add(slider, BorderLayout.WEST);
         sliderPanel.add(levelLb, BorderLayout.WEST);
         sliderPanel.add(speedSlider, BorderLayout.EAST);
         sliderPanel.add(speedLb, BorderLayout.EAST);
+        buttonPanel.add(movLb, BorderLayout.NORTH);
+        buttonPanel.add(counter, BorderLayout.SOUTH);
         buttonPanel.add(startBtn, BorderLayout.NORTH);
         buttonPanel.add(resetBtn, BorderLayout.SOUTH);
 
@@ -81,5 +95,10 @@ public class PanelControl extends JPanel{
 //        this.add(startBtn);
 //        this.add(resetBtn);
 
+    }
+
+
+    public void setCounterLabelText(String text) {
+        counter.setText(text);
     }
 }
